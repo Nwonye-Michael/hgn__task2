@@ -59,6 +59,7 @@ const Movies = () => {
       console.log(res)
       const videoKey = res.data.results[res.data.results.length - 1]?.key || ""
       setVideoSrc(`https://www.youtube.com/embed/${videoKey}/`)
+      consolee.log(`https://www.youtube.com/embed/${videoKey}/`)
     } catch (err) {
       console.log("Error", err)
     }
