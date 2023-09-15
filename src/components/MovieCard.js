@@ -3,7 +3,7 @@ import axios from "axios"
 import moviecardposter from "../assets/moviecardposter.png"
 import imdb from "../assets/imdb.png"
 import rottenTomatoe from "../assets/rottentomatoe.png"
-import { AiFillHeart } from "react-icons/ai"
+import { AiOutlineHeart } from "react-icons/ai"
 import { useNavigate } from "react-router"
 export const MovieCard = (props) => {
   // const movieData = props.data
@@ -51,6 +51,18 @@ export const MovieCard = (props) => {
   const toMovie = (id) => {
     nav(`/movies/${id}`)
   }
+  const [fav, setFav] = useState(false)
+
+  const favoriteClick = (e) => {
+    e.stopPropagation()
+    const favbutton = document.querySelector(`#${"fav" + movieData.title} `)
+    setFav((prev) => !prev)
+    if (fav) {
+      favbutton.classList.add("!text-red-600")
+    } else {
+      favbutton.classList.remove("!text-red-600")
+    }
+  }
 
   return (
     <div
@@ -64,12 +76,22 @@ export const MovieCard = (props) => {
       <div className="absolute flex justify-between w-full px-4 md:top-4 top-2 ">
         {" "}
         {movieData.media_type && (
-          <span className="font-bold text-[12px] h-fit text-black  py-[3px] px-[8px] rounded-xl flex bg-neutral-400 justify-center items-center">
+          <span className="font-bold text-[12px] h-fit text-black  py-[3px] px-[8px] rounded-xl flex bg-neutral-400 justify-center items-center  ">
             TV SERIES
           </span>
         )}
-        <span className="w-[30px] h-[30px] rounded-[50%] flex bg-neutral-400 justify-center items-center relative left-full md:translate-x-[-100%] translate-x-[-80%] scale-[.75] md:scale-[1]">
-          <AiFillHeart size={18} color="#D1D5DB" />
+        <span
+          className="w-[30px] h-[30px] rounded-[50%] flex bg-neutral-400 justify-center items-center relative left-full md:translate-x-[-100%] translate-x-[-80%] scale-[.75] md:scale-[1] hover:bg-red-300 hover:scale-110 cursor-pointer"
+          onClick={(e) => {
+            e.stopPropagation() // Prevent the click event from propagating to the parent
+            favoriteClick(e)
+          }}
+        >
+          <AiOutlineHeart
+            className={`favorite border-[#D1D5DB] ${movieData.id + "fav"}`}
+            size={22}
+            id={"fav" + movieData.title}
+          />
         </span>
       </div>
       <img
