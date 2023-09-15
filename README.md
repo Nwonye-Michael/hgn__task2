@@ -1,4 +1,3 @@
-# hgn__task2
 Getting Started with Create React App
 This project was bootstrapped with Create React App.
 
