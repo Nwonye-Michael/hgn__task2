@@ -31,7 +31,7 @@ const Movies = () => {
     try {
       const response = await axios.get(requestLink)
       setMovieData(response.data)
-      console.log(response.data)
+      // console.log(response.data)
 
       // Map the genres and update the genre state
       const mappedGenres = response.data.genres.map((genre) => (
