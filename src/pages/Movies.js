@@ -24,7 +24,7 @@ const Movies = () => {
 
   const API_KEY = "1124c0f174383a022dc4f2914530e658"
   const BASE_URL = "https://api.themoviedb.org/3"
-  const video_url = `http://api.themoviedb.org/3/movie/${movieId}/videos?api_key=${API_KEY}`
+  const video_url = `https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=${API_KEY}`
   const movieID_URL = `${BASE_URL}/movie/${movieId}?api_key=${API_KEY}&language=en-US`
 
   const fetchData = async (requestLink) => {
