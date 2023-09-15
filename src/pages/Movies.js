@@ -67,23 +67,11 @@ const Movies = () => {
   const [isSideMenuOpen, setIsSideMenuOpen] = useState(true)
   // Toggle side menu
 
-  const [sideMenu, setSideMenu] = useState(true)
-  const handleSideM = () => {
-    // const sideNav = document.querySelector(".movies__sidenav")
-
-    // if (!sideMenu) {
-    //   sideNav.classList.add("hidden")
-    //   setSideMenu((prev) => !prev)
-    // }
-    // sideNav.classList.add("scale-[.5]")
-    // console.log(sideNav)
-    console.log("clicked")
-  }
   const handleSideMenu = () => {
     const sideNav = document.querySelector(".movies__sidenav")
     const movieContent = document.querySelector(".movies__content")
     const menuIcon = document.querySelector(".menu-icon")
-
+    console.log("clicked")
     if (isSideMenuOpen) {
       sideNav.classList.add("md:hidden")
       movieContent.classList.remove("md:ml-[175px]")
@@ -179,14 +167,25 @@ const Movies = () => {
           </li>
         </ul>
       </div>
-      <div className="movies__content  h-full lg:w-[calc(100vw-226px)] md:min-w-[calc(100vw-190px)] w-full flex-1 mt-12 md:mt-4 pt-[38px] lg:px-[38px] relative md:ml-[175px] lg:ml-[226px] px-4 md:px-auto">
-        <div className="movie__content-trailer lg:w-full md:w-[98%] h-fit md:rounded-[20px] rounded-lg relative overflow-hidden ">
-          <iframe
+      <div className="movies__content  h-full lg:w-[calc(100vw-226px)] md:min-w-[calc(100vw-190px)] w-[98%] flex-1 mt-12 md:mt-4 pt-[38px] lg:px-[38px] relative md:ml-[175px] lg:ml-[226px] px-4 md:px-auto">
+        <div className="movie__content-trailer lg:w-[calc(100vw-300px)] md:w-[98%] aspect-video md:rounded-[20px] rounded-lg relative overflow-hidden border-2 ">
+          {/* <iframe
             title={movieData.id + movieData.title}
             src={videoSrc}
             className="h-fit aspect-video w-full object-cover"
             allowFullScreen
-          ></iframe>
+          ></iframe> */}
+
+          <img
+            src={`https://image.tmdb.org/t/p/original/${movieData.poster_path}`}
+            alt="movie poster"
+          />
+          <div className="overlay flex flex-col text-xs md:text-base justify-center absolute inset-0 items-center">
+            <div className="p-2 rounded-[50%] aspect-square  bg-[#E8E8E833] ">
+              <BsFillPlayFill className="" size={30} />
+            </div>
+            Watch trailer
+          </div>
         </div>
 
         <div className="movie__content-info md:mt-8 mt-3  ">
