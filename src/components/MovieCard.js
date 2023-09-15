@@ -55,12 +55,15 @@ export const MovieCard = (props) => {
 
   const favoriteClick = (e) => {
     e.stopPropagation()
-    const favbutton = document.querySelector(`#${"fav" + movieData.title} `)
-    setFav((prev) => !prev)
-    if (fav) {
-      favbutton.classList.add("!text-red-600")
-    } else {
-      favbutton.classList.remove("!text-red-600")
+    const favbutton = document.querySelector(`#${"fav" + movieData.title}`)
+    if (favbutton) {
+      // Check if favbutton is not null or undefined
+      setFav((prev) => !prev)
+      if (fav) {
+        favbutton.classList.add("!text-red-600")
+      } else {
+        favbutton.classList.remove("!text-red-600")
+      }
     }
   }
 
