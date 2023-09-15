@@ -7,12 +7,14 @@ import {
   BsCalendar3,
   BsFillPlayFill,
   BsPauseFill,
+  BsCaretDown,
 } from "react-icons/bs"
 
 import axios from "axios"
 import { PiMonitorPlay } from "react-icons/pi"
 import { TbLogout } from "react-icons/tb"
 import { Link } from "react-router-dom"
+import { FaAngleDown } from "react-icons/fa"
 
 const Movies = () => {
   const movieId =
@@ -102,7 +104,7 @@ const Movies = () => {
   }
 
   return (
-    <div className="movies flex w-[100vw]  h-[100vh] overflow-x-hidden relative lg:scale-100">
+    <div className="movies flex w-[100vw]  h-[100vh] overflow-x-hidden relative lg:scale-100 mb-8">
       <div className="mobile-menu  flex flex-row absolute  md:hidden items-center justify-between w-full px-4 my-6 ">
         <Link to="/home" className=" ">
           <div className=" flex gap-x-[6px]">
@@ -189,7 +191,7 @@ const Movies = () => {
         </div>
 
         <div className="movie__content-info md:mt-8 mt-3  ">
-          <div className="movie__content-info_left w-[65%]  md:w-[80%]  ">
+          <div className="movie__content-info_left w-[70%]  md:w-[60%]  ">
             <div className="info-title lg:text-[23px] md:text-lg text-[#404040] font-bold w-fit flex md:flex-row flex-col justify-center whitespace-nowrap ">
               <div className="flex ">
                 <span data-testid="movie-title">{movieData.title}</span>{" "}
@@ -226,6 +228,21 @@ const Movies = () => {
               <span className="text-[#BE123C]">
                 {" "}
                 Tom Cruise, Jennifer Connelly, Miles Teller
+              </span>
+            </div>
+
+            <div className="info-director lg:text-base text-[10px] text-left lg:mb-8 mb-2 flex border-[#333333] border w-fit rounded-md whitespace-nowrap">
+              <span className="  bg-[#BE123C] rounded-md px-2 flex items-center">
+                {" "}
+                Top Rated Movies #65
+              </span>
+
+              <span className="flex  md:gap-[8rem] rounded-md  gap-4 items-center p-2">
+                {" "}
+                <span className="text-[#333333]  ">
+                  Awards 9 nominations
+                </span>{" "}
+                <FaAngleDown className="text-[#333333]  " />
               </span>
             </div>
           </div>
