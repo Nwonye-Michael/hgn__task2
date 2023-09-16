@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react"
 import axios from "axios"
-import moviecardposter from "../assets/moviecardposter.png"
+
 import imdb from "../assets/imdb.png"
 import rottenTomatoe from "../assets/rottentomatoe.png"
-import { AiOutlineHeart } from "react-icons/ai"
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai"
 import { useNavigate } from "react-router"
 export const MovieCard = (props) => {
   // const movieData = props.data
@@ -46,7 +46,19 @@ export const MovieCard = (props) => {
     ))
   }
 
-  const releaseYear = new Date(movieData.release_date).getFullYear()
+  const releaseYear = new Date(movieData.release_date)
+  const options = {
+    weekday: "short",
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    timeZoneName: "short",
+  }
+  const formattedDate = releaseYear.toLocaleString("en-US", options)
+
   const nav = useNavigate()
   const toMovie = (id) => {
     nav(`/movies/${id}`)
@@ -55,16 +67,18 @@ export const MovieCard = (props) => {
 
   const favoriteClick = (e) => {
     e.stopPropagation()
-    const favbutton = document.querySelector(`#${"fav" + movieData.title}`)
-    if (favbutton) {
-      // Check if favbutton is not null or undefined
-      setFav((prev) => !prev)
-      if (fav) {
-        favbutton.classList.add("!text-red-600")
-      } else {
-        favbutton.classList.remove("!text-red-600")
-      }
-    }
+    setFav((prev) => !prev)
+    // const favbutton = document.querySelector(`#${"fav" + movieData.id}`)
+    // if (favbutton) {
+
+    //   setFav((prev) => !prev)
+    //   if (fav) {
+    //     favbutton.classList.add("!text-red-600")
+    //     favbutton.classList.add("!bg-red-600")
+    //   } else {
+    //     favbutton.classList.remove("!text-red-600")
+    //   }
+    // }
   }
 
   return (
@@ -84,17 +98,25 @@ export const MovieCard = (props) => {
           </span>
         )}
         <span
-          className="w-[30px] h-[30px] rounded-[50%] flex bg-neutral-400 justify-center items-center relative left-full md:translate-x-[-100%] translate-x-[-80%] scale-[.75] md:scale-[1] hover:bg-red-300 hover:scale-110 cursor-pointer"
+          className="w-[30px] h-[30px] rounded-[50%] flex bg-neutral-400 justify-center items-center relative left-full md:translate-x-[-100%] translate-x-[-80%] scale-[.75] md:scale-[1] hover:scale-110 cursor-pointer"
           onClick={(e) => {
             e.stopPropagation() // Prevent the click event from propagating to the parent
             favoriteClick(e)
           }}
         >
-          <AiOutlineHeart
-            className={`favorite border-[#D1D5DB] ${movieData.id + "fav"}`}
-            size={22}
-            id={"fav" + movieData.title}
-          />
+          {
+            fav ? (
+              <AiFillHeart size={22} color="red" />
+            ) : (
+              <AiOutlineHeart size={22} className={` border-[#D1D5DB] `} />
+            )
+
+            // <AiOutlineHeart
+            //   className={`favorite border-[#D1D5DB] ${movieData.id + "fav"}`}
+            //   size={22}
+            //   id={"fav" + movieData.id}
+            //   />
+          }
         </span>
       </div>
       <img
@@ -107,7 +129,7 @@ export const MovieCard = (props) => {
         className="moviecard_duration text-gray-400 font-bold md:text-sm  text-xs leading-tight mb:mb-3 mb-1"
         data-testid="movie-release-date"
       >
-        USA, {releaseYear}
+        USA, {formattedDate}
       </p>
       <h3
         className="text-gray-900 font-bold md:text-lg text-base leading-tigh tmb:mb-3 mb-1"
