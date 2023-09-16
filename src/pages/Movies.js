@@ -103,20 +103,18 @@ const Movies = () => {
   if (loading) {
     return <p>Loading...</p>
   }
+  function convertToUTC(dateString) {
+    const dateParts = dateString.split("-")
+    const year = parseInt(dateParts[0], 10)
+    const month = parseInt(dateParts[1], 10) - 1
+    const day = parseInt(dateParts[2], 10)
 
-  const releaseYear = new Date(movieData.release_date)
-  const options = {
-    weekday: "short",
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-    timeZoneName: "short",
+    const dateObject = new Date(Date.UTC(year, month, day))
+
+    return dateObject.toUTCString()
   }
-  const formattedDate = releaseYear.toLocaleString("en-US", options)
 
+  const formattedDate = convertToUTC(movieData.release_date)
   return (
     <div className="movies flex w-[100vw]  h-[100vh] overflow-x-hidden relative lg:scale-100 mb-8">
       <div className="mobile-menu  flex flex-row absolute  md:hidden items-center justify-between w-full px-4 my-6 ">
@@ -204,7 +202,7 @@ const Movies = () => {
           </div>
         </div>
 
-        <div className="movie__content-info md:mt-8 mt-3 flex ">
+        <div className="movie__content-info md:mt-8 mt-3 flex flex-col lg:flex-row ">
           <div className="movie__content-info_left w-[70%]  md:w-[60%]  ">
             <div className="info-title lg:text-[23px] md:text-lg text-[#404040] font-bold w-fit flex md:flex-row flex-col justify-center whitespace-nowrap ">
               <div className="flex ">
@@ -260,7 +258,7 @@ const Movies = () => {
               </span>
             </div>
           </div>
-          <div className="movie__content-info_right border border-black min-w-[10%] h-[80%] mt-14 ml-5">
+          <div className="movie__content-info_right lg:w-[360px] w-[150px] md:w-[250px] h-[80%] mt-14 ml-5">
             <div className="lg:text-base text-[10px] text-left text-[#333333] w-full lg:mb-2 mb-1 flex justify-end items-center py-2  font-semibold ">
               ⭐ <span className="">8.5</span>| 350k
             </div>
@@ -271,7 +269,7 @@ const Movies = () => {
               <BsList size={20} className="mr-[2px]" />
               More watch options
             </div>
-            <div className="relative flex flex-col ">
+            <div className="relative flex flex-col lg:w-[360px] w-[150px] md:w-[250px] ">
               <p className="absolute w-full py-2 bg-[#12121280] lg:text-base text-sm flex items-center bottom-0 z-30 justify-center rounded-b-md">
                 <BsList size={25} className="mr-[2px]" /> The Best Movies and
                 Shows in September
@@ -279,7 +277,7 @@ const Movies = () => {
               <img
                 src={bestMovies}
                 alt="bestMovies"
-                className="relative flex aspect-[360/230] max-w-[360px] "
+                className="relative flex aspect-[360/230] lg:w-[360px] w-[150px] md:w-[250px]"
               />
             </div>
           </div>
