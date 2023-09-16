@@ -113,8 +113,9 @@ const Movies = () => {
 
     return dateObject.toUTCString()
   }
+ const formattedDate =
+    movieData.release_date && convertToUTC(movieData.release_date);
 
-  const formattedDate = convertToUTC(movieData.release_date)
   return (
     <div className="movies flex w-[100vw]  h-[100vh] overflow-x-hidden relative lg:scale-100 mb-8">
       <div className="mobile-menu  flex flex-row absolute  md:hidden items-center justify-between w-full px-4 my-6 ">
