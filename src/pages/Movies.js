@@ -1,13 +1,14 @@
 import React, { useState, useRef, useEffect } from "react"
 import logo from "../assets/tv.png"
 import menu from "../assets/Menu.png"
+import bestMovies from "../assets/theBestMovie.png"
+
 import { GoHome } from "react-icons/go"
 import {
   BsCameraReels,
   BsCalendar3,
   BsFillPlayFill,
-  BsPauseFill,
-  BsCaretDown,
+  BsList,
 } from "react-icons/bs"
 
 import axios from "axios"
@@ -103,6 +104,19 @@ const Movies = () => {
     return <p>Loading...</p>
   }
 
+  const releaseYear = new Date(movieData.release_date)
+  const options = {
+    weekday: "short",
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    timeZoneName: "short",
+  }
+  const formattedDate = releaseYear.toLocaleString("en-US", options)
+
   return (
     <div className="movies flex w-[100vw]  h-[100vh] overflow-x-hidden relative lg:scale-100 mb-8">
       <div className="mobile-menu  flex flex-row absolute  md:hidden items-center justify-between w-full px-4 my-6 ">
@@ -190,20 +204,20 @@ const Movies = () => {
           </div>
         </div>
 
-        <div className="movie__content-info md:mt-8 mt-3  ">
+        <div className="movie__content-info md:mt-8 mt-3 flex ">
           <div className="movie__content-info_left w-[70%]  md:w-[60%]  ">
             <div className="info-title lg:text-[23px] md:text-lg text-[#404040] font-bold w-fit flex md:flex-row flex-col justify-center whitespace-nowrap ">
               <div className="flex ">
                 <span data-testid="movie-title">{movieData.title}</span>{" "}
                 <span className="lg:px-3 px-1">.</span>
-                <span data-testid="movie-release-date">
-                  {" "}
-                  {movieData.release_date}
-                </span>
+                <span data-testid="movie-release-date"> {formattedDate}</span>
                 <span className="lg:px-3 px-1 ">.</span>
                 {movieData.adult ? "18+" : "PG 13"}
                 <span className="lg:px-3 px-1">.</span>
-                <span data-testid="movie-runtime">{movieData.runtime}m</span>
+                <span>
+                  {" "}
+                  <span data-testid="movie-runtime">{movieData.runtime}</span>m
+                </span>
               </div>
               <div className="w-fit h-fit gap-x-1 flex"> {genre}</div>
             </div>
@@ -231,19 +245,42 @@ const Movies = () => {
               </span>
             </div>
 
-            <div className="info-director lg:text-base text-[10px] text-left lg:mb-8 mb-2 flex border-[#333333] border w-fit rounded-md whitespace-nowrap">
+            <div className="info-director lg:text-base text-[10px] text-left lg:mb-8 mb-2 flex border-[#333333] border w-full rounded-md whitespace-nowrap">
               <span className="  bg-[#BE123C] rounded-md px-2 flex items-center">
                 {" "}
                 Top Rated Movies #65
               </span>
 
-              <span className="flex  md:gap-[8rem] rounded-md  gap-4 items-center p-2">
+              <span className="flex justify-between rounded-md items-center p-2 w-full">
                 {" "}
-                <span className="text-[#333333]  ">
+                <span className="text-[#333333] flex ">
                   Awards 9 nominations
-                </span>{" "}
+                </span>
                 <FaAngleDown className="text-[#333333]  " />
               </span>
+            </div>
+          </div>
+          <div className="movie__content-info_right border border-black min-w-[10%] h-[80%] mt-14 ml-5">
+            <div className="lg:text-base text-[10px] text-left text-[#333333] w-full lg:mb-2 mb-1 flex justify-end items-center py-2  font-semibold ">
+              ⭐ <span className="">8.5</span>| 350k
+            </div>
+            <div className="lg:text-base text-[10px] text-left text-[#333333] w-full lg:mb-2 mb-1 flex justify-center items-center p-2 rounded-md bg-[#BE123C] font-semibold ">
+              See Showtimes
+            </div>
+            <div className="lg:text-base text-[10px] text-left text-[#333333] w-full lg:mb-2 mb-1  flex justify-center items-center p-2 rounded-md border-[#BE123C] border font-semibold bg-[#BE123C1A]">
+              <BsList size={20} className="mr-[2px]" />
+              More watch options
+            </div>
+            <div className="relative flex flex-col ">
+              <p className="absolute w-full py-2 bg-[#12121280] lg:text-base text-sm flex items-center bottom-0 z-30 justify-center rounded-b-md">
+                <BsList size={25} className="mr-[2px]" /> The Best Movies and
+                Shows in September
+              </p>
+              <img
+                src={bestMovies}
+                alt="bestMovies"
+                className="relative flex aspect-[360/230] max-w-[360px] "
+              />
             </div>
           </div>
         </div>
