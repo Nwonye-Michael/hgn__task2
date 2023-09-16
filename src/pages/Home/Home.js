@@ -70,7 +70,7 @@ function Home() {
             modules={[Autoplay, Pagination]}
             className="mySwiper md:max-h-[100vh] max-h-[70vh] "
           >
-            {topRated.map((movie, index) => {
+            {movieData.map((movie, index) => {
               const posterBackground = `https://image.tmdb.org/t/p/original/${movie.poster_path}`
               const title = movie.original_title
               const desc = movie.overview
@@ -113,7 +113,7 @@ function Home() {
             })}
           </Swiper>
 
-          <FeaturedMovieSlider data={movieData} />
+          <FeaturedMovieSlider data={topRated} />
         </>
       )}
       <Footer />
