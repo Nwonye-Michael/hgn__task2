@@ -1,41 +1,30 @@
 import React, { useEffect, useState } from "react"
 import axios from "axios"
+import moviecardposter from "../assets/moviecardposter.png"
+import imdb from "../assets/imdb.png"
+import rottenTomatoe from "../assets/rottentomatoe.png"
+import { AiOutlineHeart } from "react-icons/ai"
+import { useNavigate } from "react-router"
+export const MovieCard = (props) => {
+  // const movieData = props.data
+  // const moviePoster = `https://image.tmdb.org/t/p/original/${movieData.poster_path}`
+  // const title = movieData.original_title
+  // const desc = movieData.overview
 
-import Navbar from "../../components/Navbar"
-import { AiFillPlayCircle } from "react-icons/ai"
-
-import rottenTomatoe from "../../assets/rottentomatoe.png"
-import imdb from "../../assets/imdb.png"
-import "./Home.css"
-
-// Import Swiper React components
-import { Swiper, SwiperSlide } from "swiper/react"
-import "swiper/css/pagination"
-import { Autoplay, Pagination } from "swiper/modules"
-import "swiper/css"
-
-import FeaturedMovieSlider from "../../components/FeaturedMovieSlider"
-import Footer from "../../components/Footer"
-import { Link } from "react-router-dom"
-
-function Home() {
+  const id = props.data.id
   const [movieData, setMovieData] = useState([])
-  const [isLoading, setIsLoading] = useState(true)
 
   const API_KEY = "1124c0f174383a022dc4f2914530e658"
   const BASE_URL = "https://api.themoviedb.org/3"
-  const API_URL =
-    BASE_URL + "/discover/movie?sort_by=popularity.desc&api_key=" + API_KEY
-  const IMG_URL = "https://image.tmdb.org/t/p/w500"
-  //  d
+
+  // const searchURL = BASE_URL + "/search/movie?" + API_KEY
+  const movieID_URL = `${BASE_URL}/movie/${id}?api_key=${API_KEY}&language=en-US`
 
   const fetchData = async ([data, setData], requestLink) => {
     axios
       .get(requestLink)
       .then((response) => {
-        setData(response.data.results)
-        console.log(response.data.results)
-        setIsLoading(false)
+        setData(response.data)
       })
       .catch((err) => {
         console.log("Error", err)
@@ -44,80 +33,103 @@ function Home() {
   }
 
   useEffect(() => {
-    fetchData([movieData, setMovieData], API_URL)
+    fetchData([movieData, setMovieData], movieID_URL)
   }, [])
 
+  const posterBackground = `https://image.tmdb.org/t/p/original/${movieData.poster_path}`
+  const title = movieData.original_title
+
+  let genre = ""
+  if (movieData.length !== 0) {
+    genre = movieData.genres.map((genre, index) => (
+      <span key={index}>{genre.name} </span>
+    ))
+  }
+
+  const releaseYear = new Date(movieData.release_date).getFullYear()
+  const nav = useNavigate()
+  const toMovie = (id) => {
+    nav(`/movies/${id}`)
+  }
+  const [fav, setFav] = useState(false)
+
+  const favoriteClick = (e) => {
+    e.stopPropagation()
+    const favbutton = document.querySelector(`#${"fav" + movieData.id}`)
+    if (favbutton) {
+      // Check if favbutton is not null or undefined
+      setFav((prev) => !prev)
+      if (fav) {
+        favbutton.classList.add("!text-red-600")
+      } else {
+        favbutton.classList.remove("!text-red-600")
+      }
+    }
+  }
+
   return (
-    <div className="app__home h-[100vh] relative ">
-      <Navbar></Navbar>
-      {isLoading ? (
-        <div className="isLoading h-[90vh] w-[100vw] flex justify-center items-center object-fill">
-          <div className="animate-bounce-in-top">
-            <p className="text-base font-semibold text-rose-600">Loading...</p>
-          </div>
+    <div
+      className="app__moviecard lg:w-[250px] md:w-[200px]  w-[150px]  relative text-left flex flex-col mx-auto "
+      id={id}
+      onClick={() => {
+        toMovie(id)
+      }}
+      data-testid="movie-card"
+    >
+      <div className="absolute flex justify-between w-full px-4 md:top-4 top-2 ">
+        {" "}
+        {movieData.media_type && (
+          <span className="font-bold text-[12px] h-fit text-black  py-[3px] px-[8px] rounded-xl flex bg-neutral-400 justify-center items-center  ">
+            TV SERIES
+          </span>
+        )}
+        <span
+          className="w-[30px] h-[30px] rounded-[50%] flex bg-neutral-400 justify-center items-center relative left-full md:translate-x-[-100%] translate-x-[-80%] scale-[.75] md:scale-[1] hover:bg-red-300 hover:scale-110 cursor-pointer"
+          onClick={(e) => {
+            e.stopPropagation() // Prevent the click event from propagating to the parent
+            favoriteClick(e)
+          }}
+        >
+          <AiOutlineHeart
+            className={`favorite border-[#D1D5DB] ${movieData.id + "fav"}`}
+            size={22}
+            id={"fav" + movieData.id}
+          />
+        </span>
+      </div>
+      <img
+        src={posterBackground}
+        alt="poster"
+        className="w-full object-contain mb-3 "
+        data-testid="movie-poster"
+      />
+      <p
+        className="moviecard_duration text-gray-400 font-bold md:text-sm  text-xs leading-tight mb:mb-3 mb-1"
+        data-testid="movie-release-date"
+      >
+        USA, {releaseYear}
+      </p>
+      <h3
+        className="text-gray-900 font-bold md:text-lg text-base leading-tigh tmb:mb-3 mb-1"
+        data-testid="movie-title"
+      >
+        {title}
+      </h3>
+      <div className="app__home-movie-desc_rating h-[17px] flex font-normal text-[12px]  justify-between mb:mb-3 mb-1 text-gray-900">
+        <div className="app__home-movie-desc_rating-imbd flex">
+          <img src={imdb} alt="imbd" />
+          <span className="ml-[10px]">
+            {(movieData.vote_average * 10).toFixed(1)}/100
+          </span>
         </div>
-      ) : (
-        <>
-          <Swiper
-            direction={"vertical"}
-            slidesPerView={1}
-            autoplay={{
-              delay: 5000,
-              // disableOnInteraction: false,
-            }}
-            pagination={true}
-            modules={[Autoplay, Pagination]}
-            className="mySwiper md:max-h-[100vh] max-h-[70vh] "
-          >
-            {movieData.map((movie, index) => {
-              const posterBackground = `https://image.tmdb.org/t/p/original/${movie.poster_path}`
-              const title = movie.original_title
-              const desc = movie.overview
-
-              return (
-                <SwiperSlide className="h-fit" key={title + index}>
-                  <img
-                    src={posterBackground}
-                    alt="poster"
-                    className=" md:flex-1 flex absolute h-[80vh] w-[100vw] md:h-fit object-cover"
-                  />
-
-                  <div className="app__home-desc w-[404px] relative md:left-[98px] md:top-[50%] top-[25%] translate-x-[-10%] md:translate-y-[-50%] scale-[.6] md:scale-100">
-                    <h2 className="w-fit text-5xl leading-[56px] font-semibold md:font-bold text-left mb-4">
-                      {title}
-                    </h2>
-
-                    <div className="app__home-movie-desc_rating h-[17px] flex font-extralight text-[12px]  w-[184px] justify-between mb-4">
-                      <div className="app__home-movie-desc_rating-imbd flex ">
-                        <img src={imdb} alt="imbd" />
-                        <span className="ml-[10px]">86.0/100</span>
-                      </div>
-                      <div className="app__home-movie-desc_rating-rottentomatoe flex">
-                        <img src={rottenTomatoe} alt="rt" />
-                        <span className="ml-[10px]">97%</span>
-                      </div>
-                    </div>
-                    <p className="md:font-medium  text-sm text-left mb-4">
-                      {desc}
-                    </p>
-                    <Link to={`/movies/${movie.id}`}>
-                      {" "}
-                      <button className=" bg-rose-700 flex justify-center items-center py-[6px] px-[16px] rounded-md gap-2 text-[14px]">
-                        <AiFillPlayCircle size={22} /> Watch trailer
-                      </button>
-                    </Link>
-                  </div>
-                </SwiperSlide>
-              )
-            })}
-          </Swiper>
-
-          <FeaturedMovieSlider data={movieData} />
-        </>
-      )}
-      <Footer />
+        <div className="app__home-movie-desc_rating-rottentomatoe flex">
+          <img src={rottenTomatoe} alt="rt" />
+          <span className="ml-[10px]">97%</span>
+        </div>
+      </div>
+      <p className="moviecard_duration text-gray-400 font-bold text-sm ">
+        {genre}
+      </p>
     </div>
   )
 }
-
-export default Home
