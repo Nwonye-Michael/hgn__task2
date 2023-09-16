@@ -51,7 +51,7 @@ function Home() {
     <div className="app__home h-[100vh] relative ">
       <Navbar></Navbar>
       {isLoading ? (
-        <div className="isLoading h-[80vh] w-[100vw] flex justify-center items-center object-fill">
+        <div className="isLoading h-[90vh] w-[100vw] flex justify-center items-center object-fill">
           <div className="animate-bounce-in-top">
             <p className="text-base font-semibold text-rose-600">Loading...</p>
           </div>
