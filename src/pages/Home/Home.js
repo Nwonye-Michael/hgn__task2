@@ -79,7 +79,7 @@ function Home() {
                   <img
                     src={posterBackground}
                     alt="poster"
-                    className=" md:flex-1 flex absolute h-[50vh] md:h-fit"
+                    className=" md:flex-1 flex absolute h-[50vh] md:h-fit object-cover"
                   />
 
                   <div className="app__home-desc w-[404px] relative md:left-[98px] md:top-[50%] top-[25%] translate-x-[-10%] md:translate-y-[-50%] scale-[.6] md:scale-100">
