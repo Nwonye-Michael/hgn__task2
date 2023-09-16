@@ -45,19 +45,18 @@ export const MovieCard = (props) => {
       <span key={index}>{genre.name} </span>
     ))
   }
+  function convertToUTC(dateString) {
+    const dateParts = dateString.split("-")
+    const year = parseInt(dateParts[0], 10)
+    const month = parseInt(dateParts[1], 10) - 1
+    const day = parseInt(dateParts[2], 10)
 
-  const releaseYear = new Date(movieData.release_date)
-  const options = {
-    weekday: "short",
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-    timeZoneName: "short",
+    const dateObject = new Date(Date.UTC(year, month, day))
+
+    return dateObject.toUTCString()
   }
-  const formattedDate = releaseYear.toLocaleString("en-US", options)
+
+  const formattedDate = convertToUTC(movieData.release_date)
 
   const nav = useNavigate()
   const toMovie = (id) => {
