@@ -56,7 +56,9 @@ export const MovieCard = (props) => {
     return dateObject.toUTCString()
   }
 
-  const formattedDate = convertToUTC(movieData.release_date)
+  const formattedDate =
+    movieData.release_date && convertToUTC(movieData.release_date);
+
 
   const nav = useNavigate()
   const toMovie = (id) => {
