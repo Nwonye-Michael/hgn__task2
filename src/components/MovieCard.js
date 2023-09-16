@@ -59,7 +59,7 @@ export const MovieCard = (props) => {
   const formattedDate =
     movieData.release_date && convertToUTC(movieData.release_date);
 
-
+// why isnt vercel seeing this
   const nav = useNavigate()
   const toMovie = (id) => {
     nav(`/movies/${id}`)
