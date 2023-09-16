@@ -6,10 +6,10 @@ import rottenTomatoe from "../assets/rottentomatoe.png"
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai"
 import { useNavigate } from "react-router"
 export const MovieCard = (props) => {
-  // const movieData = props.data
-  // const moviePoster = `https://image.tmdb.org/t/p/original/${movieData.poster_path}`
-  // const title = movieData.original_title
-  // const desc = movieData.overview
+  const movieData = props.data
+  const moviePoster = `https://image.tmdb.org/t/p/original/${movieData.poster_path}`
+  const title = movieData.original_title
+  const desc = movieData.overview
 
   const id = props.data.id
   const [movieData, setMovieData] = useState([])
